@@ -1,0 +1,12 @@
+.idea/*
+nohup.out
+build
+.gradle
+.idea
+.project
+.settings
+.classpath
+*.iml
+ucp.iml
+ucp.ipr
+ucp.iws
