@@ -8,6 +8,7 @@
   authorize: true
 </script>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Photon - Photo Sharing at the speed of light</title>
   <style>
     body {
       font-size: 13px;
@@ -16,49 +17,78 @@
       margin: 100px auto;
     }
   </style>
+  <meta name="description" content="A small little demo of the power of viper.io">
+  <meta name="author" content="Brian Guarraci">
+
+  <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <!-- Le styles -->
+  <link href="/css/base.css" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet">
+  <script src="/js/jquery.js"></script>
+  <script src="/js/mustache.js"></script>
+  <script src="/js/jquery-ui-1.8.16.custom.min.js"></script>
+  <script src="/js/easydate.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/js/spin.js"></script>
+
+  <!-- Code Mirror -->
+  <script src="/codemirror/lib/codemirror.js"></script>
+  <script src="/codemirror/mode/xml/xml.js"></script>
+  <link rel="stylesheet" href="/codemirror/lib/codemirror.css">
+  <script src="/codemirror/lib/overlay.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/codemirror/lib/runmode.js" type="text/javascript" charset="utf-8"></script>
+  <link rel="stylesheet" href="/codemirror/theme/default.css">
+
+  <!-- Le fav and touch icons -->
+  <link rel="shortcut icon" href="images/favicon.ico">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
 
   <link media="all" type="text/css" href="http://developer.linkedinlabs.com/tutorials/css/jqueryui.css" rel="stylesheet"/>
   <link href="fileuploader.css" rel="stylesheet" type="text/css">
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.5b1.js"></script>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js"></script>
   <script type="text/javascript" src="fileuploader.js"></script>
-<script type="text/javascript">
+  <script type="text/javascript">
 
-  var params = {};
+    var params = {};
 
-  function createUploader()
-  {
-    var uploader = new qq.FileUploader({
-                                         element: document.getElementById('file-uploader-demo1'),
-                                         action: '/u/',
-                                         debug: false,
-                                         params: params
-                                       });
-  }
+    function createUploader()
+    {
+      var uploader = new qq.FileUploader({
+                                           element: document.getElementById('file-uploader-demo1'),
+                                           action: '/u/',
+                                           debug: false,
+                                           params: params
+                                         });
+    }
 
-  $(document).ready(function() {
-    createUploader();
-  });
+    $(document).ready(function() {
+      createUploader();
+    });
 
-  function loadData() {
-    IN.API.Profile("me")
-      .fields(["id", "firstName", "lastName", "pictureUrl","headline","publicProfileUrl"])
-      .result(function(result) {
-        profile = result.values[0];
-        params.id = profile.id;
-        profHTML = "<p><a href=\"" + profile.publicProfileUrl + "\">";
-        profHTML += "<img class=img_border align=\"left\" src=\"" + profile.pictureUrl + "\"></a>";
-        profHTML += "<a href=\"" + profile.publicProfileUrl + "\">";
-        profHTML += "<h2 class=myname>" + profile.firstName + " " + profile.lastName + "</a> </h2>";
-        profHTML += "<span class=myheadline>" + profile.headline + "</span>";
-        $("#profile").html(profHTML);
-      });
-  }
-</script>
-
-
+    function loadData() {
+      IN.API.Profile("me")
+        .fields(["id", "firstName", "lastName", "pictureUrl","headline","publicProfileUrl"])
+        .result(function(result) {
+          profile = result.values[0];
+          params.id = profile.id;
+          profHTML = "<p><a href=\"" + profile.publicProfileUrl + "\">";
+          profHTML += "<img class=img_border align=\"left\" src=\"" + profile.pictureUrl + "\"></a>";
+          profHTML += "<a href=\"" + profile.publicProfileUrl + "\">";
+          profHTML += "<h2 class=myname>" + profile.firstName + " " + profile.lastName + "</a> </h2>";
+          profHTML += "<span class=myheadline>" + profile.headline + "</span>";
+          $("#profile").html(profHTML);
+        });
+    }
+  </script>
 </head>
 <body class="yui3-skin-sam	yui-skin-sam">
+
 <div id="profile"></div>
 <script type="IN/Login" data-onAuth="loadData"></script>
 
@@ -70,6 +100,10 @@
     <p>Please enable JavaScript to use file uploader.</p>
     <!-- or put a simple form for upload here -->
   </noscript>
+</div>
+
+<!-- /container -->
+<div id="footer">
 </div>
 </body>
 </html>

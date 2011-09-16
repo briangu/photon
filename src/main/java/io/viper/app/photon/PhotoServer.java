@@ -2,6 +2,11 @@ package io.viper.app.photon;
 
 
 import com.amazon.s3.QueryStringAuthGenerator;
+import com.sun.jersey.api.core.PackagesResourceConfig;
+import com.sun.jersey.api.core.ResourceConfig;
+import com.sun.jersey.server.impl.application.WebApplicationImpl;
+import com.sun.jersey.spi.container.WebApplication;
+import io.viper.net.server.JerseyContainerHandler;
 import io.viper.net.server.chunkproxy.MappedFileServerHandler;
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +21,8 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import javax.annotation.Resource;
+import javax.ws.rs.ApplicationPath;
 import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.channel.ChannelHandler;
 import org.jboss.netty.channel.ChannelPipeline;
@@ -25,7 +32,6 @@ import org.jboss.netty.channel.socket.ClientSocketChannelFactory;
 import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory;
 import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 import io.viper.net.server.chunkproxy.FileChunkProxy;
-import io.viper.net.server.chunkproxy.FileContentInfo;
 import io.viper.net.server.chunkproxy.FileContentInfoProvider;
 import io.viper.net.server.chunkproxy.HttpChunkProxyHandler;
 import io.viper.net.server.chunkproxy.HttpChunkRelayProxy;
@@ -38,6 +44,7 @@ import io.viper.net.server.router.HostRouterHandler;
 import io.viper.net.server.router.RouteMatcher;
 import io.viper.net.server.router.RouterHandler;
 import io.viper.net.server.router.UriRouteMatcher;
+import io.viper.net.server.router.UriRouteMatcher.MatchMode;
 import org.jboss.netty.handler.codec.http.HttpRequestDecoder;
 import org.jboss.netty.handler.codec.http.HttpResponseEncoder;
 import org.json.JSONException;
@@ -193,6 +200,13 @@ public class PhotoServer
     return new HostRouterHandler(routes);
   }
 
+  @ApplicationPath("/photos/")
+  public static class PhotoApplication extends PackagesResourceConfig {
+    public PhotoApplication() {
+        super("io.viper.app.photon");
+    }
+  }
+
   private static class LocalPhotoServerChannelPipelineFactory implements ChannelPipelineFactory
   {
     private final int _maxContentLength;
@@ -201,6 +215,7 @@ public class PhotoServer
     private final MappedFileServerHandler _staticFileProvider;
     private final FileContentInfoProvider _uploadFileProvider;
     private final String _downloadHostname;
+    private final JerseyContainerHandler _restHandler;
 
     public LocalPhotoServerChannelPipelineFactory(
       int maxContentLength,
@@ -216,6 +231,11 @@ public class PhotoServer
 
       _staticFileProvider = MappedFileServerHandler.create(_staticFileRoot);
       _uploadFileProvider = new StaticFileContentInfoProvider(_uploadFileRoot);
+
+      WebApplication webApplication = new WebApplicationImpl();
+      ResourceConfig rc = new PhotoApplication();
+      webApplication.initiate(rc);
+      _restHandler = new JerseyContainerHandler(webApplication, rc);
     }
 
     @Override
@@ -228,12 +248,12 @@ public class PhotoServer
         new FileUploadChunkRelayEventListener(_downloadHostname);
 
       LinkedHashMap<RouteMatcher, ChannelHandler> localhostRoutes = new LinkedHashMap<RouteMatcher, ChannelHandler>();
-      localhostRoutes.put(new UriRouteMatcher(UriRouteMatcher.MatchMode.startsWith, "/u/"),
+      localhostRoutes.put(new UriRouteMatcher(MatchMode.startsWith, "/u/"),
                           new HttpChunkProxyHandler(proxy, relayListener, _maxContentLength));
-      localhostRoutes.put(new UriRouteMatcher(UriRouteMatcher.MatchMode.startsWith, "/d/"),
+      localhostRoutes.put(new UriRouteMatcher(MatchMode.startsWith, "/d/"),
                           new StaticFileServerHandler(_uploadFileProvider));
-      localhostRoutes.put(new UriRouteMatcher(UriRouteMatcher.MatchMode.startsWith, "/"),
-                          _staticFileProvider);
+      localhostRoutes.put(new UriRouteMatcher(MatchMode.startsWith, "/photos/"), _restHandler);
+      localhostRoutes.put(new UriRouteMatcher(MatchMode.startsWith, "/"), _staticFileProvider);
 //    pipeline.addLast("handler", new WebSocketServerHandler(_listeners));
 
       ChannelPipeline lhPipeline = new DefaultChannelPipeline();
@@ -288,11 +308,11 @@ public class PhotoServer
         new FileUploadChunkRelayEventListener(_downloadHostname);
 
       LinkedHashMap<RouteMatcher, ChannelHandler> localhostRoutes = new LinkedHashMap<RouteMatcher, ChannelHandler>();
-      localhostRoutes.put(new UriRouteMatcher(UriRouteMatcher.MatchMode.startsWith, "/u/"),
+      localhostRoutes.put(new UriRouteMatcher(MatchMode.startsWith, "/u/"),
                           new HttpChunkProxyHandler(proxy, relayListener, _maxContentLength));
-      localhostRoutes.put(new UriRouteMatcher(UriRouteMatcher.MatchMode.startsWith, "/d/"),
+      localhostRoutes.put(new UriRouteMatcher(MatchMode.startsWith, "/d/"),
                           new S3StaticFileServerHandler(_authGenerator, _bucketName, _cf, _amazonHost));
-      localhostRoutes.put(new UriRouteMatcher(UriRouteMatcher.MatchMode.startsWith, "/"),
+      localhostRoutes.put(new UriRouteMatcher(MatchMode.startsWith, "/"),
                           new StaticFileServerHandler(_staticFileCache));
 //    pipeline.addLast("handler", new WebSocketServerHandler(_listeners));
 
