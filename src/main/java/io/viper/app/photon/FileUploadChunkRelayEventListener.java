@@ -29,6 +29,7 @@ public class FileUploadChunkRelayEventListener implements HttpChunkRelayEventLis
 
   public void onError(Channel clientChannel)
   {
+    if (clientChannel == null) return;
     sendResponse(clientChannel, false);
   }
 
