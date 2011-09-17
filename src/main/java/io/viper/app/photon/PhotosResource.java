@@ -117,11 +117,13 @@ public class PhotosResource
       String member = String.format("urn:member:%s", id);
       JSONObject post = new JSONObject();
       post.put("actor", member);
-      post.put("verb", "post");
+      post.put("verb", "share");
 
       JSONObject object = new JSONObject();
       JSONArray links = new JSONArray();
       JSONObject link = new JSONObject();
+      link.put("title", "");
+      link.put("description", "");
       link.put("thumbnail", thumbnail);
       link.put("url", url);
       links.put(link);

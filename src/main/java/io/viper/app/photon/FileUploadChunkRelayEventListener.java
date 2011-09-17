@@ -53,6 +53,7 @@ public class FileUploadChunkRelayEventListener implements HttpChunkRelayEventLis
       JSONObject jsonResponse = new JSONObject();
       jsonResponse.put("success", Boolean.toString(success));
       jsonResponse.put("url", String.format("%s%s", _hostname, _fileKey));
+      jsonResponse.put("key", _fileKey);
       response.setContent(ChannelBuffers.wrappedBuffer(jsonResponse.toString(2).getBytes("UTF-8")));
       clientChannel.write(response).addListener(ChannelFutureListener.CLOSE);
     }

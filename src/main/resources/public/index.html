@@ -26,7 +26,10 @@
   <![endif]-->
 
   <!-- Le styles -->
-  <link href="/css/base.css" rel="stylesheet">
+  <!--
+    <link media="all" type="text/css" href="http://developer.linkedinlabs.com/tutorials/css/jqueryui.css" rel="stylesheet"/>
+    <link href="/css/base.css" rel="stylesheet">
+    -->
   <link href="/css/styles.css" rel="stylesheet">
   <script src="/js/jquery.js"></script>
   <script src="/js/mustache.js"></script>
@@ -35,12 +38,12 @@
   <script src="/js/spin.js"></script>
 
   <!-- Code Mirror -->
+  <link rel="stylesheet" href="/codemirror/lib/codemirror.css">
+  <link rel="stylesheet" href="/codemirror/theme/default.css">
   <script src="/codemirror/lib/codemirror.js"></script>
   <script src="/codemirror/mode/xml/xml.js"></script>
-  <link rel="stylesheet" href="/codemirror/lib/codemirror.css">
   <script src="/codemirror/lib/overlay.js" type="text/javascript" charset="utf-8"></script>
   <script src="/codemirror/lib/runmode.js" type="text/javascript" charset="utf-8"></script>
-  <link rel="stylesheet" href="/codemirror/theme/default.css">
 
   <!-- Le fav and touch icons -->
   <link rel="shortcut icon" href="images/favicon.ico">
@@ -48,28 +51,12 @@
   <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
   <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
 
-  <link media="all" type="text/css" href="http://developer.linkedinlabs.com/tutorials/css/jqueryui.css" rel="stylesheet"/>
-  <link href="fileuploader.css" rel="stylesheet" type="text/css">
+  <link href="css/fileuploader.css" rel="stylesheet" type="text/css">
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.5b1.js"></script>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="fileuploader.js"></script>
+  <script type="text/javascript" src="js/fileuploader.js"></script>
   <script type="text/javascript">
-
     var params = {};
-
-    function createUploader()
-    {
-      var uploader = new qq.FileUploader({
-                                           element: document.getElementById('file-uploader-demo1'),
-                                           action: '/u/',
-                                           debug: false,
-                                           params: params
-                                         });
-    }
-
-    $(document).ready(function() {
-      createUploader();
-    });
 
     function loadData() {
       IN.API.Profile("me")
@@ -87,20 +74,97 @@
     }
   </script>
 </head>
-<body class="yui3-skin-sam	yui-skin-sam">
+<body>
+
+<script type="text/javascript" src="js/app.js"></script>
+<style type="text/css" media="screen">
+  .CodeMirror-scroll {
+    background-color: #F7F7F7;
+    border: 1px solid #CCC;
+    border-radius: 3px;
+    margin: 5px 0;
+    padding: 5px 10px 10px 10px;
+    -webkit-box-shadow: 0px 1px 2px #CCC;
+    height: auto;
+    overflow: hidden;
+    position: relative;
+  }
+</style>
 
 <div id="profile"></div>
 <script type="IN/Login" data-onAuth="loadData"></script>
 
 <br/>
+<br/>
 <p>To upload a file, click on the button below. Drag-and-drop is supported in FF, Chrome.</p>
 
-<div id="file-uploader-demo1">
-  <noscript>
-    <p>Please enable JavaScript to use file uploader.</p>
-    <!-- or put a simple form for upload here -->
-  </noscript>
+ <!-- Main Content-->
+    <div id="main-content">
+      <div class="inner">
+        <div class="container">
+
+          <div class="row update-box-container">
+            <div class="span10 columns">
+
+              <!-- Update Box -->
+              <div class="modal update-box" id="update-box">
+                <div class="modal-body">
+                  <div id="file-uploader-demo1">
+                    <noscript>
+                      <p>Please enable JavaScript to use file uploader.</p>
+                      <!-- or put a simple form for upload here -->
+                    </noscript>
+                  </div>
+                </div>
+              </div>
+              <!-- END Update Box -->
+
+              <!-- Stream -->
+              <div id="stream">
+                <div class="container">
+                <div class="spacer">
+                  &nbsp;
+                </div>
+
+                <div id="stream-updates"></div>
+
+                <div class="spacer">
+                  &nbsp;
+                </div>
+
+                </div>
+              </div>
+              <!-- END Stream -->
+
+            </div>
+          </div>
+        </div>
+    </div>
+
+<!-- templates -->
+
+<!-- Update kind: Share -->
+<script type="text/html" id="template-update-share">
+<div class="float" id="{{id}}">
+  {{#object}}
+    {{#links}}
+      {{#thumbnail}}
+      <div class="article-photo"><a href="{{url}}" target="_blank"><img src="{{thumbnail}}" alt="{{title}}" /></a></div>
+      {{/thumbnail}}
+    {{/links}}
+  {{/object}}
+  {{#socialSummary}}
+  <div class="update-actions">
+    <a href="#" class="add-like">Like {{#totalLikes}}({{totalLikes}}){{/totalLikes}}</a> ·
+    <a href="#" class="add-comment">Comment {{#totalComments}}({{totalComments}}){{/totalComments}}</a> ·
+    <span rel="{{createdDate}}" class="easydate"></span>
+  </div>
+  {{/socialSummary}}
+  </div>
 </div>
+</script>
+
+<!-- templates -->
 
 <!-- /container -->
 <div id="footer">

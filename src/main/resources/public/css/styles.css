@@ -123,6 +123,11 @@ form {
   width: 80px;
 }
 
+.article-photo img {
+  height: 80px;
+  width: 80px;
+}
+
 .update .article-title, .update .article-photo {
   display: inline-block;
   vertical-align: top;
@@ -269,4 +274,20 @@ ul.team li img {
 
 /* Diff */
 .diff-inline {
+}
+
+
+div.float {
+  float: left;
+}
+
+div.float p {
+  text-align: center;
+}
+
+div.container {
+}
+
+div.spacer {
+  clear: both;
 }
