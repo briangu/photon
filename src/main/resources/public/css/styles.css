@@ -41,7 +41,7 @@ form {
 
 #main-content {
   clear: both;
-  margin: 64px 0 0 0;
+  margin: 0px 0 0 0;
 }
 
 .secondary-nav form {
@@ -52,8 +52,9 @@ form {
   margin-bottom: 0;
 }
 .update-box {
-  background-color: #EFEFEF;
-  margin: 10px 0 20px 0;
+  border: 1px solid #CCC;
+  background-color: #FFFFFF;
+  margin: 10px 0px 20px 30px;
   position: relative;
   top: auto;
   left: auto;
