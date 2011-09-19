@@ -54,6 +54,8 @@ public class PhotoServer
 {
   private ServerBootstrap _bootstrap;
 
+  private final static String _tmpFileDir = "src/main/resources/tmp/uploads";
+
   public static PhotoServer create(String localhostName, int port, String staticFileRoot)
     throws Exception, IOException, JSONException
   {
@@ -67,12 +69,12 @@ public class PhotoServer
 
     String localhost = String.format("http://%s:%s", localhostName, port);
 
-    new File("/tmp/uploads").mkdir();
+    new File(_tmpFileDir).mkdir();
 
     ChannelPipelineFactory photoServerChannelPipelineFactory =
         new LocalPhotoServerChannelPipelineFactory(
             (1024 * 1024) * 1024,
-            "/tmp/uploads",
+            _tmpFileDir,
             staticFileRoot,
             localhost + "/d/");
 

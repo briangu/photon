@@ -96,8 +96,6 @@
 
 <br/>
 <br/>
-<p>To upload a file, click on the button below. Drag-and-drop is supported in FF, Chrome.</p>
-
  <!-- Main Content-->
     <div id="main-content">
       <div class="inner">
@@ -109,6 +107,7 @@
               <!-- Update Box -->
               <div class="modal update-box" id="update-box">
                 <div class="modal-body">
+                  <p>To upload a file, click on the button below. Drag-and-drop is supported in FF, Chrome.</p>
                   <div id="file-uploader-demo1">
                     <noscript>
                       <p>Please enable JavaScript to use file uploader.</p>
@@ -120,20 +119,40 @@
               <!-- END Update Box -->
 
               <!-- Stream -->
-              <div id="stream">
-                <div class="container">
-                <div class="spacer">
-                  &nbsp;
-                </div>
-
-                <div id="stream-updates"></div>
-
-                <div class="spacer">
-                  &nbsp;
-                </div>
-
-                </div>
-              </div>
+            <table id="stream" border="0" cellspacing="0" class="TwentyFour">
+              <tbody>
+              <tr valign="bottom">
+                <td id="ir0c0" class="Photo"></td>
+                <td id="ir0c1" class="Photo"></td>
+                <td id="ir0c2" class="Photo"></td>
+              </tr>
+              <tr valign="top">
+                <td id="or0c0" class="Owner"></td>
+                <td id="or0c1" class="Owner"></td>
+                <td id="or0c2" class="Owner"></td>
+              </tr>
+              <tr valign="bottom">
+                <td id="ir1c0" class="Photo"></td>
+                <td id="ir1c1" class="Photo"></td>
+                <td id="ir1c2" class="Photo"></td>
+              </tr>
+              <tr valign="top">
+                <td id="or1c0" class="Owner"></td>
+                <td id="or1c1" class="Owner"></td>
+                <td id="or1c2" class="Owner"></td>
+              </tr>
+              <tr valign="bottom">
+                <td id="ir2c0" class="Photo"></td>
+                <td id="ir2c1" class="Photo"></td>
+                <td id="ir2c2" class="Photo"></td>
+              </tr>
+              <tr valign="top">
+                <td id="or2c0" class="Owner"></td>
+                <td id="or2c1" class="Owner"></td>
+                <td id="or2c2" class="Owner"></td>
+              </tr>
+              </tbody>
+            </table>
               <!-- END Stream -->
 
             </div>
@@ -144,7 +163,38 @@
 <!-- templates -->
 
 <!-- Update kind: Share -->
-<script type="text/html" id="template-update-share">
+
+<script type="text/html" id="template-photo-owner">
+  {{#actor}}
+     {{#links}}
+    <p>
+      <a href="{{url}}"><b><i>{{title}}</i></b></a><br>
+      From <a href="{{url}}"><b>{{name}}</b></a>
+    </p>
+  {{/links}}
+ {{/actor}}
+  {{#socialSummary}}
+  <div class="update-actions">
+    <a href="#" class="add-like">Like {{#totalLikes}}({{totalLikes}}){{/totalLikes}}</a> ·
+    <a href="#" class="add-comment">Comment {{#totalComments}}({{totalComments}}){{/totalComments}}</a> ·
+    <span rel="{{createdDate}}" class="easydate"></span>
+  </div>
+  {{/socialSummary}}
+</script>
+
+<script type="text/html" id="template-photo-image">
+  {{#object}}
+    {{#links}}
+  <span class="photo_container pc_m">
+    <a href="{{url}}" title="{{title}}">
+      <img src="{{thumbnail}}" width="240" height="180" alt="{{title}}" class="pc_img" border="0">
+    </a>
+  </span>
+    {{/links}}
+  {{/object}}
+</script>
+
+<script type="text/html" id="template-update">
 <div class="float" id="{{id}}">
   {{#object}}
     {{#links}}

@@ -46,20 +46,22 @@ $().ready(function() {
      * Get Feed
      */
      $.getJSON('/photos/feed?id='+params.id, function(data) {
-       var activitiesHTML = "";
-       $.each(data.elements, function(key, activity) { // Iterate through all activity views
-         if($("#template-update-"+ activity.verb).length) {        // If we find the corresponding template exists and it's available
-           activitiesHTML += renderActivity(activity, "#template-update-"+ activity.verb);
-         } else { // render default template
-           activitiesHTML += renderActivity(activity, "#template-update-default");
-         }
+       var r = 0;
+       var c = 0;
 
-        // Attach rendered activities
-         $("#stream-updates").html(activitiesHTML);
-         fixBrokenImages();
-//         showTimeAgoDates();
+       $.each(data.elements, function(key, activity) {
+         var imageHTML = renderActivity(activity, "#template-photo-image");
+         var ownerHTML = renderActivity(activity, "#template-photo-owner");
+         $('#ir'+r+'c'+c).html(imageHTML);
+         $('#or'+r+'c'+c).html(ownerHTML);
+
+         c++;
+         if (c % 3 == 0) r++;
+         c %= 3;
        });
 
+       fixBrokenImages();
+//         showTimeAgoDates();
      });
   }
 
