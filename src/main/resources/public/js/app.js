@@ -61,7 +61,7 @@ $().ready(function() {
        });
 
        fixBrokenImages();
-//         showTimeAgoDates();
+//       showTimeAgoDates();
      });
   }
 

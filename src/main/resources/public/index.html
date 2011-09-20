@@ -1,7 +1,7 @@
 
 <html>
 <head>
-<title>Profile App Example</title>
+<title>Photon</title>
 
 <script type="text/javascript" src="http://platform.linkedin.com/in.js">
   api_key: yqQd9hQtbDqlu6ns_mY8r10oBFoj2PrTp6mJkea879iGwVpNyfdmXPcKZNMF7upb
@@ -165,25 +165,25 @@
 <!-- Update kind: Share -->
 
 <script type="text/html" id="template-photo-owner">
-    <p>
+  {{#socialSummary}}
+  <div class="update-actions">
+    <a href="#" class="add-like">Like {{#totalLikes}}({{totalLikes}}){{/totalLikes}}</a> ·
+    <a href="#" class="add-comment">Comment {{#totalComments}}({{totalComments}}){{/totalComments}}</a> ·
+    {{#actor}}
+       {{#links}}
+    From <a href="{{url}}"><b>{{title}}</b></a>
+    {{/links}}
+   {{/actor}}
+    <span rel="{{createdDate}}" class="easydate"></span>
+  </div>
+  {{/socialSummary}}
+    <div>
       {{#object}}
         {{#links}}
       <a href="{{url}}"><b><i>{{description}}</i></b></a><br>
       {{/links}}
     {{/object}}
-      {{#actor}}
-         {{#links}}
-      From <a href="{{url}}"><b>{{title}}</b></a>
-      {{/links}}
-     {{/actor}}
-    </p>
-  {{#socialSummary}}
-  <div class="update-actions">
-    <a href="#" class="add-like">Like {{#totalLikes}}({{totalLikes}}){{/totalLikes}}</a> ·
-    <a href="#" class="add-comment">Comment {{#totalComments}}({{totalComments}}){{/totalComments}}</a> ·
-    <span rel="{{createdDate}}" class="easydate"></span>
-  </div>
-  {{/socialSummary}}
+    </div>
 </script>
 
 <script type="text/html" id="template-photo-image">

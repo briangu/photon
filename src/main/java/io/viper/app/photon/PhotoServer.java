@@ -213,7 +213,7 @@ public class PhotoServer
     private final int _maxContentLength;
     private final String _uploadFileRoot;
     private final String _staticFileRoot;
-    private final MappedFileServerHandler _staticFileProvider;
+    private final FileContentInfoProvider _staticFileProvider;
     private final FileContentInfoProvider _uploadFileProvider;
     private final String _downloadHostname;
     private final JerseyContainerHandler _restHandler;
@@ -230,7 +230,8 @@ public class PhotoServer
       _staticFileRoot = staticFileRoot;
       _downloadHostname = downloadHostname;
 
-      _staticFileProvider = MappedFileServerHandler.create(_staticFileRoot);
+//      _staticFileProvider = MappedFileServerHandler.create(_staticFileRoot);
+      _staticFileProvider = StaticFileContentInfoProvider.create(_staticFileRoot);
       _uploadFileProvider = new StaticFileContentInfoProvider(_uploadFileRoot);
 
       WebApplication webApplication = new WebApplicationImpl();
@@ -254,7 +255,8 @@ public class PhotoServer
       localhostRoutes.put(new UriRouteMatcher(MatchMode.startsWith, "/d/"),
                           new StaticFileServerHandler(_uploadFileProvider));
       localhostRoutes.put(new UriRouteMatcher(MatchMode.startsWith, "/photos/"), _restHandler);
-      localhostRoutes.put(new UriRouteMatcher(MatchMode.startsWith, "/"), _staticFileProvider);
+      localhostRoutes.put(new UriRouteMatcher(MatchMode.startsWith, "/"),
+                          new StaticFileServerHandler(_staticFileProvider));
 //    pipeline.addLast("handler", new WebSocketServerHandler(_listeners));
 
       ChannelPipeline lhPipeline = new DefaultChannelPipeline();
