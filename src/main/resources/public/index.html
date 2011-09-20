@@ -165,14 +165,18 @@
 <!-- Update kind: Share -->
 
 <script type="text/html" id="template-photo-owner">
-  {{#actor}}
-     {{#links}}
     <p>
-      <a href="{{url}}"><b><i>{{title}}</i></b></a><br>
-      From <a href="{{url}}"><b>{{name}}</b></a>
+      {{#object}}
+        {{#links}}
+      <a href="{{url}}"><b><i>{{description}}</i></b></a><br>
+      {{/links}}
+    {{/object}}
+      {{#actor}}
+         {{#links}}
+      From <a href="{{url}}"><b>{{title}}</b></a>
+      {{/links}}
+     {{/actor}}
     </p>
-  {{/links}}
- {{/actor}}
   {{#socialSummary}}
   <div class="update-actions">
     <a href="#" class="add-like">Like {{#totalLikes}}({{totalLikes}}){{/totalLikes}}</a> ·
