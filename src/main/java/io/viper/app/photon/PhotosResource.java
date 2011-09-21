@@ -32,8 +32,8 @@ public class PhotosResource
   static {
     try
     {
-      _queryClient = HttpJSONClient.create("http://bguarrac-md:1340/activityviews");
-      _publishClient = HttpJSONClient.create("http://bguarrac-md:1338/activities");
+      _queryClient = HttpJSONClient.create("http://bguarrac-ld:1340/activityviews");
+      _publishClient = HttpJSONClient.create("http://bguarrac-ld:1338/activities");
       _headers.put("X-LinkedIn-Auth-Member", "1");
     }
     catch (IOException e)
@@ -52,7 +52,7 @@ public class PhotosResource
 
   @GET
   @Produces("text/javascript")
-  @Path("/feed")
+  @Path("/myfeed")
   public String getMemberPhotoFeed(@QueryParam("id") String id) {
     List<NameValuePair> queryParams = new ArrayList<NameValuePair>();
     try
@@ -75,6 +75,32 @@ public class PhotosResource
     }
     return "{success: false}";
   }
+
+    @GET
+    @Produces("text/javascript")
+    @Path("/feed")
+    public String getPublicPhotoFeed(@QueryParam("id") String id) {
+      List<NameValuePair> queryParams = new ArrayList<NameValuePair>();
+      try
+      {
+        queryParams.add(new BasicNameValuePair("q", "feed"));
+        queryParams.add(new BasicNameValuePair("id", String.format("urn:feed:photon:public:a::memberId=urn:member:%s", id)));
+        return _queryClient.doQuery(queryParams).toString(2);
+      }
+      catch (URISyntaxException e)
+      {
+        e.printStackTrace();
+      }
+      catch (IOException e)
+      {
+        e.printStackTrace();
+      }
+      catch (JSONException e)
+      {
+        e.printStackTrace();
+      }
+      return "{success: false}";
+    }
 
   @GET
   @Produces("text/javascript")

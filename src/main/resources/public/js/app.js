@@ -2,7 +2,7 @@ $().ready(function() {
 
   function createUploader()
   {
-    var uploader = new qq.FileUploader({
+    var pub_uploader = new qq.FileUploader({
       element: document.getElementById('file-uploader-demo1'),
       action: '/u/',
       debug: false,
@@ -22,6 +22,27 @@ $().ready(function() {
                });
       }
       });
+
+      var my_uploader = new qq.FileUploader({
+        element: document.getElementById('my-file-uploader-demo1'),
+        action: '/u/',
+        debug: false,
+        params: params,
+        allowedExtensions: ["jpg", "jpeg", "gif", "png", "tiff", "bmp"],
+        onComplete: function(id, filename, responseJSON) {
+          if (!responseJSON.success) return;
+          $.post('/photos/add',
+                 {
+                   id: params.id,
+                   thumbnail: responseJSON.url,
+                   url: responseJSON.url,
+                   photoId: "urn:photo:"+responseJSON.key
+                 },
+                 function(response) {
+                   getFeed();
+                 });
+        }
+        });
   }
 
   function fixBrokenImages() {
@@ -42,10 +63,7 @@ $().ready(function() {
   function getFeed() {
     showSpinner();
 
-    /**
-     * Get Feed
-     */
-     $.getJSON('/photos/feed?id='+params.id, function(data) {
+    $.getJSON('/photos/feed?id='+params.id, function(data) {
        var r = 0;
        var c = 0;
 
@@ -62,7 +80,34 @@ $().ready(function() {
 
        fixBrokenImages();
 //       showTimeAgoDates();
+       activateLightbox();
      });
+
+      $.getJSON('/photos/myfeed?id='+params.id, function(data) {
+         var r = 0;
+         var c = 0;
+
+         $.each(data.elements, function(key, activity) {
+           var imageHTML = renderActivity(activity, "#template-photo-image");
+           var ownerHTML = renderActivity(activity, "#template-photo-owner");
+           $('#my_ir'+r+'c'+c).html(imageHTML);
+           $('#my_or'+r+'c'+c).html(ownerHTML);
+
+           c++;
+           if (c % 3 == 0) r++;
+           c %= 3;
+         });
+
+         fixBrokenImages();
+//       showTimeAgoDates();
+         activateLightbox();
+       });
+  }
+
+  function activateLightbox() {
+   $('a.lb').lightBox({
+     fixedNavigation:true
+   });
   }
 
   function showTimeAgoDates() {
@@ -70,7 +115,7 @@ $().ready(function() {
     $(".easydate").each(function() {
       var previousDate = parseInt($(this).attr("rel"), 10);
       var date = new Date(previousDate);
-      $(this).html($.easydate.format_date(new Date(previousDate)));
+      $(this).html($.easydate.format_date(date));
     });
   }
 
