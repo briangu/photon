@@ -26,14 +26,14 @@ import org.json.JSONObject;
 public class PhotosResource
 {
   static HttpJSONClient _queryClient;
-  static HttpJSONClient _publishClient;
+    static HttpJSONClient _publishClient;
   static Map<String, String> _headers = new HashMap<String, String>();
 
   static {
     try
     {
       _queryClient = HttpJSONClient.create("http://bguarrac-ld:1340/activityviews");
-      _publishClient = HttpJSONClient.create("http://bguarrac-ld:1338/activities");
+        _publishClient = HttpJSONClient.create("http://bguarrac-ld:1338/activities");
 //      _headers.put("X-LinkedIn-Auth-Member", "1");
     }
     catch (IOException e)
@@ -179,38 +179,35 @@ public class PhotosResource
     return "{success: false}";
   }
 
+/*
+    json = {
+      "commenterId" => "urn:member:#{@current_user}",
+      "message" => params[:message]
+    }.to_json
+    activity_urn = "urn:activity:" + params[:activity_id]
+    status, response = post_url("http://#{@host}:1342/threads/#{activity_urn}/comments", json)
+    halt status, params[:message]
+    # TODO return comment URL
+
+     */
   @POST
   @Produces("text/javascript")
-  @Path("/comment")
+  @Path("/comments")
   public String addPhotoCommentEvent(
     @QueryParam("id") String id,
-    @QueryParam("photoId") String photoId,
-    @FormParam("thumbnail") String thumbnail,
-    @FormParam("url") String url)
+    @QueryParam("threadId") String threadId,
+    @FormParam("message") String body)
   {
     try
     {
       String member = String.format("urn:member:%s", id);
       JSONObject post = new JSONObject();
-      post.put("actor", member);
-      post.put("verb", "post");
+      post.put("commenterId", member);
+      post.put("message", body);
 
-      JSONObject object = new JSONObject();
-      JSONArray links = new JSONArray();
-      JSONObject link = new JSONObject();
-      link.put("thumbnail", thumbnail);
-      link.put("url", url);
-      links.put(link);
-      object.put("id", photoId);
-      object.put("links", links);
-      object.put("body", "a photo");
-      post.put("object", object);
-
-      post.put("attributedApplication", "urn:app:photon");
-      post.put("attributedEntity", member);
-      post.put("destination", member);
-
-      return _queryClient.doPost(post.toString(2), _headers).toString(2);
+      String url = String.format("http://bguarrac-ld:1342/threads/%s/comments", threadId);
+      HttpJSONClient commentsClient = HttpJSONClient.create(url);
+      return commentsClient.doPost(post.toString(2), _headers).toString(2);
     }
     catch (URISyntaxException e)
     {
@@ -223,8 +220,14 @@ public class PhotosResource
     catch (JSONException e)
     {
       e.printStackTrace();
+    } catch (NoSuchAlgorithmException e)
+    {
+        e.printStackTrace();
+    } catch (KeyManagementException e)
+    {
+        e.printStackTrace();
     }
-    return "{success: false}";
+      return "{success: false}";
   }
 }
 

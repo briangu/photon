@@ -254,29 +254,15 @@
 <script type="text/html" id="template-photo-owner">
   {{#socialSummary}}
   <div class="update-actions">
-    <a href="javascript:void(0)" id="add-comment-{{idEscaped}}" class="add-comment">Comment {{#totalComments}}({{totalComments}}){{/totalComments}}</a> ·
+    <a href="javascript:void(0)" class="add-comment">Comment {{#totalComments}}({{totalComments}}){{/totalComments}}</a> ·
     {{#actor}}
        {{#links}}
     <a href="{{url}}"><b>{{title}}</b></a>
     {{/links}}
    {{/actor}}
     <span rel="{{createdDate}}" class="easydate"></span>
-
-    <!-- comment box -->
-    <div id="comment-box-{{idEscaped}}" class="comment-box modal update-box">
-      <form method="post" id="comment-form">
-        <textarea name="comment" class="comment-textarea" cols="40" rows="3"></textarea>
-        <div>
-          <input type="button" value="Comment" class="share-btn btn primary comment-button" />
-          <a href="javascript:void(0)" class="cancel-comment">cancel</a>
-        </div>
-      </form>
-    </div>
-    <!-- end of comment box -->
     {{/socialSummary}}
-
   </div>
-
     <div>
       {{#object}}
         {{#links}}
@@ -339,7 +325,7 @@
       <img src="http://media03.linkedin.com/mpr/mpr/shrink_80_80{{thumbnail}}" alt="" />
     </div>
     <div class="span9 columns body">
-    <div class="name"><a href="#">{{title}}</a></div>
+        <div class="name"><a href="#">{{title}}</a></div>
     {{/links}}
   {{/actor}}
   {{#object}}
@@ -349,32 +335,38 @@
   {{/object}}
   {{#socialSummary}}
   <div class="update-actions">
-    <a href="javascript:void(0)" id="add-comment-{{idEscaped}}" class="add-comment">Comment {{#totalComments}}({{totalComments}}){{/totalComments}}</a> ·
     <span rel="{{createdDate}}" class="easydate"></span>
-
     <!-- comment list -->
       <ol class="comment-list">
       {{#recentComments}}
         <li>{{message}}</li>
       {{/recentComments}}
       </ol>
-
-    <!-- comment box -->
-    <div id="comment-box-{{idEscaped}}" class="comment-box">
-      <form method="post" id="comment-form-{{idEscaped}}">
-        <textarea name="comment" class="comment-textarea" cols="40" rows="3"></textarea>
-        <div>
-          <input type="button" value="Comment" class="share-btn btn primary comment-button" />
-          <a href="javascript:void(0)" class="cancel-comment">cancel</a>
-        </div>
-      </form>
-    </div>
     <!-- end of comment box -->
   </div>
   {{/socialSummary}}
   </div>
 </div>
 </script>
+
+    <!-- Update kind: comment -->
+    <script type="text/html" id="template-photo-comment-box">
+    <div class="row update">
+      <div class="update-actions">
+        <!-- comment box -->
+        <div id="comment-box-lightbox" class="comment-box">
+          <form method="post" id="comment-form-lightbox">
+            <textarea name="comment" class="comment-textarea" cols="40" rows="3"></textarea>
+            <div>
+              <input type="button" value="Comment" class="share-btn btn primary comment-button" />
+              <a href="javascript:void(0)" class="cancel-comment">cancel</a>
+            </div>
+          </form>
+        </div>
+        <!-- end of comment box -->
+      </div>
+    </div>
+    </script>
 
 <!-- templates -->
 

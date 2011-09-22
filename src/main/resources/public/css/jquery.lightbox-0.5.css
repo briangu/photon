@@ -60,7 +60,7 @@
 	width: 100%;
 	z-index: 10;
     max-width: 800px;
-    max-height: 700px;
+    max-height: 500px;
 }
 #lightbox-container-image-box > #lightbox-nav { left: 0; }
 #lightbox-nav a { outline: none;}
@@ -74,10 +74,12 @@
 #lightbox-nav-btnPrev { 
 	left: 0; 
 	float: left;
+    max-height: 500px;
 }
 #lightbox-nav-btnNext { 
 	right: 0; 
 	float: right;
+    max-height: 500px;
 }
 #lightbox-container-image-data-box {
 	font: 10px Verdana, Helvetica, sans-serif;
@@ -88,6 +90,7 @@
 	width: 100%;
 	padding: 0 0 0;
     max-width: 800px;
+    max-height: 500px;
 }
 #lightbox-container-image-data {
 	padding: 0 10px; 

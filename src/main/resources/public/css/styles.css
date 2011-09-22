@@ -330,17 +330,17 @@ div.tab {
 }
 
 .comment-box share-btn {
-  width: 200px;
+  width: 400px;
 }
 
 .comment-box {
-  width: 260px;
+  width: 400px;
   /* Shake animation is clipped by bg: why?! */
   z-index: 99999999;
-  display: none;
+  /* display: none; */
 }
 
 .comment-box textarea {
   margin: 0;
-  width: 250px;
+  width: 400px;
 }

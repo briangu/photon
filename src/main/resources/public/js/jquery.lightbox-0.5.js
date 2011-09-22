@@ -45,12 +45,8 @@
 			// Don�t alter these variables in any way
 			imageArray:				[],
 			activeImage:			0,
-            imageDataFn:            _imgDataFn
+            onPostLoad:             null
 		},settings);
-
-        function _imgDataFn(imgArr, actimg) {
-            return imgArr[actimg][1];
-        }
 
 		// Caching the jQuery object with all elements matched
 		var jQueryMatchedObj = this; // This, in this context, refer to jQuery object
@@ -92,6 +88,7 @@
 			}
 			// Call the function that prepares image exibition
 			_set_image_to_view();
+            if (settings.onPostLoad) settings.onPostLoad(settings.imageArray[settings.activeImage]);
 		}
 		/**
 		 * Create the jQuery lightBox plugin interface
@@ -150,7 +147,7 @@
 			}).show();
 			// Assigning click events in elements to close overlay
 			$('#jquery-overlay,#jquery-lightbox').click(function() {
-				_finish();									
+//				_finish();
 			});
 			// Assign the _finish function to lightbox-loading-link and lightbox-secNav-btnClose objects
 			$('#lightbox-loading-link,#lightbox-secNav-btnClose').click(function() {
@@ -246,8 +243,8 @@
 		function _show_image_data() {
 			$('#lightbox-container-image-data-box').slideDown('fast');
 			$('#lightbox-image-details-caption').hide();
-			if ( settings.imageArray[settings.activeImage][1] || settings.imageDataFn != _imgDataFn) {
-				$('#lightbox-image-details-caption').html(settings.imageDataFn(settings.imageArray, settings.activeImage)).show();
+			if ( settings.imageArray[settings.activeImage][1]) {
+				$('#lightbox-image-details-caption').html(settings.imageArray[settings.activeImage][1]).show();
 			}
 			// If we have a image set, display 'Image X of X'
 			if ( settings.imageArray.length > 1 ) {

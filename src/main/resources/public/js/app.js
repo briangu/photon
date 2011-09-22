@@ -105,81 +105,73 @@ $().ready(function() {
          fixBrokenImages();
          showTimeAgoDates();
          activateLightbox("lb_mine");
-
-         // add inline comment boxes
-         $(".add-comment").click(function () {
-           m = this.id.match("add-comment-(.*)");
-           activityUrn = m[1];
-           $("#comment-box-" + activityUrn).show(500);
-         });
-
-         $(".comment-button").click(function () {
-           commentBox = $(this).parents(".comment-box")
-           commentTextArea = commentBox.find(".comment-textarea")
-           commentText = commentTextArea.val();
-           if (commentText.length > 0) {
-             m = commentBox.attr('id').match("comment-box-urn_activity_(.*)");
-             activityUrn = m[1]
-             $.ajax({
-               type: 'POST',
-               url: '/activities/' + activityUrn + '/comments',
-               data: "message=" +escape(commentText),
-               success: function(data) {
-                 commentTextArea.val("");
-                 commentBox.hide(500);
-                 li = $('<li style="display: none">' + commentText + "</li>")
-                 commentBox.siblings('ol').append(li);
-                 li.fadeIn(500);
-               },
-               error: function(data, textStatus, errorThrown) {
-                 alert("Error posting comment: " + errorThrown);
-               }
-             });
-           } else {
-             commentBox.effect('shake', { times: 2 }, 200);
-           }
-         });
-
-         $(".cancel-comment").click(function () {
-           $(this).parents(".comment-box").hide(500);
-         });
        });
   }
 
   function activateLightbox(clazz) {
    $('a.'+clazz).lightBox({
      fixedNavigation:true,
-     imageDataFn: imageData,
+     onPostLoad: imageData,
      containerResizeSpeed: 350
    });
   }
 
-  function imageData(imgArr, actimg) {
-    var url = imgArr[actimg][0];
+  function imageData(imgInfo) {
+    var url = imgInfo[0];
     var photoId = url.substring(url.lastIndexOf("/")+1);
     var threadId = activityIdMap["urn:photo:"+photoId];
 
-    var html = "";
-    $.ajax({
-        async: false,
-        dataType: "json",
-        url: '/photos/photocomments/?threadId='+threadId,
-        success: function(data) {
+    $.getJSON(
+        '/photos/photocomments/?threadId='+threadId,
+        function(data) {
+            var html = "<div class='container' style='margin-left: 50px'>";
             var i = 0;
             $.each(data.elements, function(key, activity) {
                 if (i++ >= 3) return;
                 html += renderActivity(activity, "#template-photo-comment");
             })
 
-            if (i >= 3) {
-                html += "<div><a href='#'>Show all comments</a></div>";
-            }
+            html += Mustache.to_html($("#template-photo-comment-box").html())
+
+            html += "<br/><a href='"+url+"' target='_blank'>"+url+"</a><br/>";
+            html += "</div>";
+
+            $('#lightbox-container-image-data-box').prepend(html);
+
+            attachCommentHandlers(threadId);
         }
-    });
+    );
+  }
 
-    html += "<br/><a href='"+url+"' target='_blank'>"+url+"</a><br/>";
+  function attachCommentHandlers(threadId) {
+      $(".comment-button").click(function () {
+        commentBox = $(".comment-box")
+        commentTextArea = commentBox.find(".comment-textarea")
+        commentText = commentTextArea.val();
+        if (commentText.length > 0) {
+          $.ajax({
+            type: 'POST',
+            url: '/photos/comments/?id='+ params.id + "&threadId=" + threadId,
+            data: "message=" +escape(commentText),
+            success: function(data) {
+              commentTextArea.val("");
+              commentBox.hide(500);
+              li = $('<li style="display: none">' + commentText + "</li>")
+              commentBox.siblings('ol').append(li);
+              li.fadeIn(500);
+            },
+            error: function(data, textStatus, errorThrown) {
+              alert("Error posting comment: " + errorThrown);
+            }
+          });
+        } else {
+          commentBox.effect('shake', { times: 2 }, 200);
+        }
+      });
 
-    return html;
+      $(".cancel-comment").click(function () {
+        $(".comment-box").hide(500);
+      });
   }
 
   function showTimeAgoDates() {
