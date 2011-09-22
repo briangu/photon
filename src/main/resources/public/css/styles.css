@@ -59,6 +59,7 @@ form {
   top: auto;
   left: auto;
   z-index: 1;
+  width: 720px;
 }
 .update-box .modal-user {
   float: left;
