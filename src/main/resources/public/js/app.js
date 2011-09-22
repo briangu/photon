@@ -82,7 +82,7 @@ $().ready(function() {
 
        fixBrokenImages();
        showTimeAgoDates();
-       activateLightbox();
+       activateLightbox("lb_pub");
      });
 
       $.getJSON('/photos/myfeed?id='+params.id, function(data) {
@@ -104,12 +104,12 @@ $().ready(function() {
 
          fixBrokenImages();
          showTimeAgoDates();
-         activateLightbox();
+         activateLightbox("lb_mine");
        });
   }
 
-  function activateLightbox() {
-   $('a.lb').lightBox({
+  function activateLightbox(clazz) {
+   $('a.'+clazz).lightBox({
      fixedNavigation:true,
      imageDataFn: imageData,
      containerResizeSpeed: 350

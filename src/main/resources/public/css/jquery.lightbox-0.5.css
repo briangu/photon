@@ -69,6 +69,7 @@
 	height: 100%;
 	zoom: 1;
 	display: block;
+  max-height: 700px;
 }
 #lightbox-nav-btnPrev { 
 	left: 0; 
