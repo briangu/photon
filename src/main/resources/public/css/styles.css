@@ -344,3 +344,26 @@ div.tab {
   margin: 0;
   width: 400px;
 }
+
+.update .body {
+color: #333;
+margin-left: 10px;
+text-align: left;
+}
+
+.comment-box {
+width: 400px;
+z-index: 99999999;
+text-align: center;
+}
+
+#comment-form-lightbox {
+margin: 0 auto;
+width: 200px;
+    text-align: center;
+}
+.post-comment-button {
+width: 390px;
+    padding: 10px;
+    margin: 0 auto;
+}
