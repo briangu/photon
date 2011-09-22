@@ -127,10 +127,15 @@ $().ready(function() {
         dataType: "json",
         url: '/photos/photocomments/?threadId='+threadId,
         success: function(data) {
+            var i = 0;
             $.each(data.elements, function(key, activity) {
+                if (i++ >= 3) return;
                 html += renderActivity(activity, "#template-photo-comment");
             })
-            html += "<div><a href='#'>Show all comments</a></div>";
+
+            if (i >= 3) {
+                html += "<div><a href='#'>Show all comments</a></div>";
+            }
         }
     });
 

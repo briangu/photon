@@ -34,7 +34,7 @@ public class PhotosResource
     {
       _queryClient = HttpJSONClient.create("http://bguarrac-ld:1340/activityviews");
       _publishClient = HttpJSONClient.create("http://bguarrac-ld:1338/activities");
-      _headers.put("X-LinkedIn-Auth-Member", "1");
+//      _headers.put("X-LinkedIn-Auth-Member", "1");
     }
     catch (IOException e)
     {
