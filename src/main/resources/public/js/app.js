@@ -90,7 +90,7 @@ $().ready(function() {
          var c = 0;
 
          $.each(data.elements, function(key, activity) {
-           var imageHTML = renderActivity(activity, "#template-photo-image");
+           var imageHTML = renderActivity(activity, "#template-photo-image-mine");
            var ownerHTML = renderActivity(activity, "#template-photo-owner");
            $('#my_ir'+r+'c'+c).html(imageHTML);
            $('#my_or'+r+'c'+c).html(ownerHTML);
