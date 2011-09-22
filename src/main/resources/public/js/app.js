@@ -116,7 +116,10 @@ $().ready(function() {
    });
   }
 
+  var _imgInfo;
+
   function imageData(imgInfo) {
+    _imgInfo = imgInfo
     var url = imgInfo[0];
     var photoId = url.substring(url.lastIndexOf("/")+1);
     var threadId = activityIdMap["urn:photo:"+photoId];
@@ -124,7 +127,8 @@ $().ready(function() {
     $.getJSON(
         '/photos/photocomments/?threadId='+threadId,
         function(data) {
-            var html = "<div class='container' style='margin-left: 50px'>";
+            $('#comment-stream').remove();
+            var html = "<div id='comment-stream' class='container' style='margin-left: 50px'>";
             var i = 0;
             $.each(data.elements, function(key, activity) {
                 if (i++ >= 3) return;
@@ -138,12 +142,12 @@ $().ready(function() {
 
             $('#lightbox-container-image-data-box').prepend(html);
 
-            attachCommentHandlers(threadId);
+            attachCommentHandlers(imgInfo, threadId);
         }
     );
   }
 
-  function attachCommentHandlers(threadId) {
+  function attachCommentHandlers(imgInfo, threadId) {
       $(".comment-button").click(function () {
         commentBox = $(".comment-box")
         commentTextArea = commentBox.find(".comment-textarea")
@@ -154,11 +158,9 @@ $().ready(function() {
             url: '/photos/comments/?id='+ params.id + "&threadId=" + threadId,
             data: "message=" +escape(commentText),
             success: function(data) {
+              setTimeout(function() { imageData(imgInfo) }, 1000);
               commentTextArea.val("");
               commentBox.hide(500);
-              li = $('<li style="display: none">' + commentText + "</li>")
-              commentBox.siblings('ol').append(li);
-              li.fadeIn(500);
             },
             error: function(data, textStatus, errorThrown) {
               alert("Error posting comment: " + errorThrown);

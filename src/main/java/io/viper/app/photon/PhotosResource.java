@@ -25,8 +25,9 @@ import org.json.JSONObject;
 @Path("/photos/")
 public class PhotosResource
 {
+  static final String _commentUrlTemplate = "http://bguarrac-ld:1342/threads/%s/comments";
   static HttpJSONClient _queryClient;
-    static HttpJSONClient _publishClient;
+  static HttpJSONClient _publishClient;
   static Map<String, String> _headers = new HashMap<String, String>();
 
   static {
@@ -179,17 +180,6 @@ public class PhotosResource
     return "{success: false}";
   }
 
-/*
-    json = {
-      "commenterId" => "urn:member:#{@current_user}",
-      "message" => params[:message]
-    }.to_json
-    activity_urn = "urn:activity:" + params[:activity_id]
-    status, response = post_url("http://#{@host}:1342/threads/#{activity_urn}/comments", json)
-    halt status, params[:message]
-    # TODO return comment URL
-
-     */
   @POST
   @Produces("text/javascript")
   @Path("/comments")
@@ -205,7 +195,7 @@ public class PhotosResource
       post.put("commenterId", member);
       post.put("message", body);
 
-      String url = String.format("http://bguarrac-ld:1342/threads/%s/comments", threadId);
+      String url = String.format(_commentUrlTemplate, threadId);
       HttpJSONClient commentsClient = HttpJSONClient.create(url);
       return commentsClient.doPost(post.toString(2), _headers).toString(2);
     }

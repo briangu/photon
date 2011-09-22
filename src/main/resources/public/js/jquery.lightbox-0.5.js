@@ -39,9 +39,9 @@
 			txtImage:				'Image',	// (string) Specify text "Image"
 			txtOf:					'of',		// (string) Specify text "of"
 			// Configuration related to keyboard navigation
-			keyToClose:				'c',		// (string) (c = close) Letter to close the jQuery lightBox interface. Beyond this letter, the letter X and the SCAPE key is used to.
-			keyToPrev:				'p',		// (string) (p = previous) Letter to show the previous image
-			keyToNext:				'n',		// (string) (n = next) Letter to show the next image.
+			keyToClose:				'_',		// (string) (c = close) Letter to close the jQuery lightBox interface. Beyond this letter, the letter X and the SCAPE key is used to.
+			keyToPrev:				'<',		// (string) (p = previous) Letter to show the previous image
+			keyToNext:				'>',		// (string) (n = next) Letter to show the next image.
 			// Don�t alter these variables in any way
 			imageArray:				[],
 			activeImage:			0,
