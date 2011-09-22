@@ -105,6 +105,44 @@ $().ready(function() {
          fixBrokenImages();
          showTimeAgoDates();
          activateLightbox("lb_mine");
+
+         // add inline comment boxes
+         $(".add-comment").click(function () {
+           m = this.id.match("add-comment-(.*)");
+           activityUrn = m[1];
+           $("#comment-box-" + activityUrn).show(500);
+         });
+
+         $(".comment-button").click(function () {
+           commentBox = $(this).parents(".comment-box")
+           commentTextArea = commentBox.find(".comment-textarea")
+           commentText = commentTextArea.val();
+           if (commentText.length > 0) {
+             m = commentBox.attr('id').match("comment-box-urn_activity_(.*)");
+             activityUrn = m[1]
+             $.ajax({
+               type: 'POST',
+               url: '/activities/' + activityUrn + '/comments',
+               data: "message=" +escape(commentText),
+               success: function(data) {
+                 commentTextArea.val("");
+                 commentBox.hide(500);
+                 li = $('<li style="display: none">' + commentText + "</li>")
+                 commentBox.siblings('ol').append(li);
+                 li.fadeIn(500);
+               },
+               error: function(data, textStatus, errorThrown) {
+                 alert("Error posting comment: " + errorThrown);
+               }
+             });
+           } else {
+             commentBox.effect('shake', { times: 2 }, 200);
+           }
+         });
+
+         $(".cancel-comment").click(function () {
+           $(this).parents(".comment-box").hide(500);
+         });
        });
   }
 
