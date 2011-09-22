@@ -73,13 +73,15 @@ $().ready(function() {
          $('#ir'+r+'c'+c).html(imageHTML);
          $('#or'+r+'c'+c).html(ownerHTML);
 
+         activityIdMap[activity.object.id] = activity.id;
+
          c++;
          if (c % 3 == 0) r++;
          c %= 3;
        });
 
        fixBrokenImages();
-//       showTimeAgoDates();
+       showTimeAgoDates();
        activateLightbox();
      });
 
@@ -93,21 +95,48 @@ $().ready(function() {
            $('#my_ir'+r+'c'+c).html(imageHTML);
            $('#my_or'+r+'c'+c).html(ownerHTML);
 
+           activityIdMap[activity.object.id] = activity.id;
+
            c++;
            if (c % 3 == 0) r++;
            c %= 3;
          });
 
          fixBrokenImages();
-//       showTimeAgoDates();
+         showTimeAgoDates();
          activateLightbox();
        });
   }
 
   function activateLightbox() {
    $('a.lb').lightBox({
-     fixedNavigation:true
+     fixedNavigation:true,
+     imageDataFn: imageData,
+     containerResizeSpeed: 350
    });
+  }
+
+  function imageData(imgArr, actimg) {
+    var url = imgArr[actimg][0];
+    var photoId = url.substring(url.lastIndexOf("/")+1);
+    var threadId = activityIdMap["urn:photo:"+photoId];
+
+    var html = "";
+    $.ajax({
+        async: false,
+        dataType: "json",
+        url: '/photos/photocomments/?threadId='+threadId,
+        success: function(data) {
+            $.each(data.elements, function(key, activity) {
+                html += renderActivity(activity, "#template-photo-comment");
+            })
+            html += "<div><a href='#'>Show all comments</a></div>";
+        }
+    });
+
+    html += "<br/><a href='"+url+"' target='_blank'>"+url+"</a><br/>";
+
+    return html;
   }
 
   function showTimeAgoDates() {

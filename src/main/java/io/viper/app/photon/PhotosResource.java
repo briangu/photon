@@ -104,13 +104,13 @@ public class PhotosResource
 
   @GET
   @Produces("text/javascript")
-  @Path("/photo")
-  public String getPhotoFeed(@QueryParam("photoId") String id) {
+  @Path("/photocomments")
+  public String getPhotoFeed(@QueryParam("threadId") String threadId) {
     List<NameValuePair> queryParams = new ArrayList<NameValuePair>();
     try
     {
       queryParams.add(new BasicNameValuePair("q", "feed"));
-      queryParams.add(new BasicNameValuePair("id", String.format("urn:feed:photon:photo:a::photoId=urn:photo:%s", id)));
+      queryParams.add(new BasicNameValuePair("id", String.format("urn:feed:photon:photo:a::threadId=%s", threadId)));
       return _queryClient.doQuery(queryParams).toString(2);
     }
     catch (URISyntaxException e)

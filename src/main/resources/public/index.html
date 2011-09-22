@@ -30,7 +30,8 @@
     <link media="all" type="text/css" href="http://developer.linkedinlabs.com/tutorials/css/jqueryui.css" rel="stylesheet"/>
     <link href="/css/base.css" rel="stylesheet">
     -->
-  <link href="/css/styles.css" rel="stylesheet">
+    <link href="/css/base.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
   <script src="/js/mustache.js"></script>
   <script src="/js/jquery-ui-1.8.16.custom.min.js"></script>
@@ -61,6 +62,7 @@
   <script type="text/javascript" src="js/fileuploader.js"></script>
   <script type="text/javascript">
     var params = {};
+    var activityIdMap = {};
 
     function loadData() {
       IN.API.Profile("me")
@@ -141,7 +143,7 @@
               <!-- END Update Box -->
 
               <!-- Stream -->
-            <table id="stream" border="0" cellspacing="0" class="TwentyFour">
+            <table  border="0" cellspacing="0" class="TwentyFour stream">
               <tbody>
               <tr valign="bottom">
                 <td id="ir0c0" class="Photo"></td>
@@ -202,7 +204,7 @@
               <!-- END Update Box -->
 
               <!-- Stream -->
-            <table id="mystream" border="0" cellspacing="0" class="TwentyFour">
+            <table border="0" cellspacing="0" class="TwentyFour stream">
               <tbody>
               <tr valign="bottom">
                 <td id="my_ir0c0" class="Photo"></td>
@@ -249,11 +251,11 @@
 <script type="text/html" id="template-photo-owner">
   {{#socialSummary}}
   <div class="update-actions">
-    <a href="#" class="add-like">Like {{#totalLikes}}({{totalLikes}}){{/totalLikes}}</a> ·
+      <!--    <a href="#" class="add-like">Like {{#totalLikes}}({{totalLikes}}){{/totalLikes}}</a> ·-->
     <a href="#" class="add-comment">Comment {{#totalComments}}({{totalComments}}){{/totalComments}}</a> ·
     {{#actor}}
        {{#links}}
-    From <a href="{{url}}"><b>{{title}}</b></a>
+    <a href="{{url}}"><b>{{title}}</b></a>
     {{/links}}
    {{/actor}}
     <span rel="{{createdDate}}" class="easydate"></span>
@@ -291,9 +293,55 @@
   {{/object}}
   {{#socialSummary}}
   <div class="update-actions">
-    <a href="#" class="add-like">Like {{#totalLikes}}({{totalLikes}}){{/totalLikes}}</a> ·
+<!--    <a href="#" class="add-like">Like {{#totalLikes}}({{totalLikes}}){{/totalLikes}}</a> ·-->
     <a href="#" class="add-comment">Comment {{#totalComments}}({{totalComments}}){{/totalComments}}</a> ·
     <span rel="{{createdDate}}" class="easydate"></span>
+  </div>
+  {{/socialSummary}}
+  </div>
+</div>
+</script>
+
+<!-- Update kind: comment -->
+<script type="text/html" id="template-photo-comment">
+<div class="row update" id="{{id}}">
+  {{#actor}}
+    {{#links}}
+    <div class="span1 columns photo">
+      <img src="http://media03.linkedin.com/mpr/mpr/shrink_80_80{{thumbnail}}" alt="" />
+    </div>
+    <div class="span9 columns body">
+    <div class="name"><a href="#">{{title}}</a></div>
+    {{/links}}
+  {{/actor}}
+  {{#object}}
+    <p>
+     {{body}}
+    </p>
+  {{/object}}
+  {{#socialSummary}}
+  <div class="update-actions">
+    <a href="javascript:void(0)" id="add-comment-{{idEscaped}}" class="add-comment">Comment {{#totalComments}}({{totalComments}}){{/totalComments}}</a> ·
+    <span rel="{{createdDate}}" class="easydate"></span>
+
+    <!-- comment list -->
+      <ol class="comment-list">
+      {{#recentComments}}
+        <li>{{message}}</li>
+      {{/recentComments}}
+      </ol>
+
+    <!-- comment box -->
+    <div id="comment-box-{{idEscaped}}" class="comment-box">
+      <form method="post" id="comment-form-{{idEscaped}}">
+        <textarea name="comment" class="comment-textarea" cols="40" rows="3"></textarea>
+        <div>
+          <input type="button" value="Comment" class="share-btn btn primary comment-button" />
+          <a href="javascript:void(0)" class="cancel-comment">cancel</a>
+        </div>
+      </form>
+    </div>
+    <!-- end of comment box -->
   </div>
   {{/socialSummary}}
   </div>

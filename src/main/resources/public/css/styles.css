@@ -95,7 +95,7 @@ form {
   width: 270px;
 }
 
-#stream {
+.stream {
   padding-bottom: 20px;
 }
 
@@ -130,7 +130,7 @@ form {
   width: 80px;
 }
 
-.update .article-title, .update .article-photo {
+.update .article-title, .update .article-photo .article-description {
   display: inline-block;
   vertical-align: top;
 }
@@ -145,7 +145,7 @@ form {
   width: 48px;
 }
 
-.update .name {
+.name {
   display: inline-block;
   padding-right: 3px;
   font-weight: bold;
@@ -326,4 +326,20 @@ div.tab {
     clear: both;
     padding: 20px;
     *margin-top: -10px;
+}
+
+.comment-box share-btn {
+  width: 200px;
+}
+
+.comment-box {
+  width: 260px;
+  /* Shake animation is clipped by bg: why?! */
+  z-index: 99999999;
+  display: none;
+}
+
+.comment-box textarea {
+  margin: 0;
+  width: 250px;
 }
