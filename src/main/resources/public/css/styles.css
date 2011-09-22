@@ -1,4 +1,4 @@
-body {
+        body {
   font-family: Helvetica, arial, sans-serif;
 }
 
@@ -41,8 +41,7 @@ form {
 
 #main-content {
   clear: both;
-  margin: 0px 0 0 0;
-  width:770px;
+  margin: 32px 0 0 0;
 }
 
 .secondary-nav form {
@@ -288,6 +287,7 @@ div.float p {
 }
 
 div.container {
+  width: 760px;
 }
 
 div.spacer {

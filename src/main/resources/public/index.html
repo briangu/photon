@@ -26,12 +26,8 @@
   <![endif]-->
 
   <!-- Le styles -->
-  <!--
-    <link media="all" type="text/css" href="http://developer.linkedinlabs.com/tutorials/css/jqueryui.css" rel="stylesheet"/>
-    <link href="/css/base.css" rel="stylesheet">
-    -->
-    <link href="/css/base.css" rel="stylesheet">
-    <link href="/css/styles.css" rel="stylesheet">
+  <link href="/css/base.css" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet">
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
   <script src="/js/mustache.js"></script>
   <script src="/js/jquery-ui-1.8.16.custom.min.js"></script>
@@ -87,6 +83,16 @@
 </head>
 <body>
 
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="topbar-inner">
+        <div class="container">
+          <h3><a id="logo" href="/"></a></h3>
+        </div>
+      </div>
+    </div>
+
 <script type="text/javascript" src="js/app.js"></script>
 <style type="text/css" media="screen">
   .CodeMirror-scroll {
@@ -110,140 +116,137 @@
  <!-- Main Content-->
     <div id="main-content">
       <div class="inner">
-      <ul class="idTabs">
-          <li><a href="#publicphotos">Public Photos</a></li>
-          <li><a href="#myphotos">My Photos</a></li>
-          <li><a href="#overview">About</a></li>
-      </ul>
+          <div class="container">
+              <div class="row update-box-container">
+                  <div class="span14 columns">
+                      <ul class="idTabs">
+                          <li><a href="#publicphotos">Public Photos</a></li>
+                          <li><a href="#myphotos">My Photos</a></li>
+                          <li><a href="#overview">About</a></li>
+                      </ul>
 
-        <div id="overview" class="tab">
-          <h2>Overview</h2>
-          <p><strong>jQuery lightBox plugin</strong> is simple, elegant, unobtrusive, no need extra markup and is <strong>used to overlay images on the current page</strong> through the power and flexibility of jQuery´s selector.</p>
-          <p>lightBox is a plugin for <a href="http://jquery.com/">jQuery</a>. It was inspired in <a href="http://www.huddletogether.com/projects/lightbox2/">Lightbox JS</a> by Lokesh Dhakar.</p>
-          <p>The better way to know what is <strong>jQuery lightBox plugin</strong>, click the Example tab above and see it in action.</p>
-        </div>
+                        <div id="overview" class="tab">
+                          <h2>Overview</h2>
+                          <p><strong>jQuery lightBox plugin</strong> is simple, elegant, unobtrusive, no need extra markup and is <strong>used to overlay images on the current page</strong> through the power and flexibility of jQuery´s selector.</p>
+                          <p>lightBox is a plugin for <a href="http://jquery.com/">jQuery</a>. It was inspired in <a href="http://www.huddletogether.com/projects/lightbox2/">Lightbox JS</a> by Lokesh Dhakar.</p>
+                          <p>The better way to know what is <strong>jQuery lightBox plugin</strong>, click the Example tab above and see it in action.</p>
+                        </div>
 
-        <div class="publicphotos container tab">
+                        <div class="publicphotos tab">
 
-          <div class="row update-box-container">
-            <div class="span10 columns">
+                              <!-- Update Box -->
+                              <div class="modal update-box" id="update-box">
+                                <div class="modal-body">
+                                  <p>To upload a file, click on the button below. Drag-and-drop is supported in FF, Chrome.</p>
+                                  <div id="file-uploader-demo1">
+                                    <noscript>
+                                      <p>Please enable JavaScript to use file uploader.</p>
+                                      <!-- or put a simple form for upload here -->
+                                    </noscript>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- END Update Box -->
 
-              <!-- Update Box -->
-              <div class="modal update-box" id="update-box">
-                <div class="modal-body">
-                  <p>To upload a file, click on the button below. Drag-and-drop is supported in FF, Chrome.</p>
-                  <div id="file-uploader-demo1">
-                    <noscript>
-                      <p>Please enable JavaScript to use file uploader.</p>
-                      <!-- or put a simple form for upload here -->
-                    </noscript>
+                              <!-- Stream -->
+                            <table  border="0" cellspacing="0" class="TwentyFour stream">
+                              <tbody>
+                              <tr valign="bottom">
+                                <td id="ir0c0" class="Photo"></td>
+                                <td id="ir0c1" class="Photo"></td>
+                                <td id="ir0c2" class="Photo"></td>
+                              </tr>
+                              <tr valign="top">
+                                <td id="or0c0" class="Owner"></td>
+                                <td id="or0c1" class="Owner"></td>
+                                <td id="or0c2" class="Owner"></td>
+                              </tr>
+                              <tr valign="bottom">
+                                <td id="ir1c0" class="Photo"></td>
+                                <td id="ir1c1" class="Photo"></td>
+                                <td id="ir1c2" class="Photo"></td>
+                              </tr>
+                              <tr valign="top">
+                                <td id="or1c0" class="Owner"></td>
+                                <td id="or1c1" class="Owner"></td>
+                                <td id="or1c2" class="Owner"></td>
+                              </tr>
+                              <tr valign="bottom">
+                                <td id="ir2c0" class="Photo"></td>
+                                <td id="ir2c1" class="Photo"></td>
+                                <td id="ir2c2" class="Photo"></td>
+                              </tr>
+                              <tr valign="top">
+                                <td id="or2c0" class="Owner"></td>
+                                <td id="or2c1" class="Owner"></td>
+                                <td id="or2c2" class="Owner"></td>
+                              </tr>
+                              </tbody>
+                            </table>
+                              <!-- END Stream -->
+
+                         </div>
+
+                            <div class="myphotos tab">
+
+                                  <!-- Update Box -->
+                                  <div class="modal update-box" id="my-update-box">
+                                    <div class="modal-body">
+                                      <p>To upload a file, click on the button below. Drag-and-drop is supported in FF, Chrome.</p>
+                                      <div id="my-file-uploader-demo1">
+                                        <noscript>
+                                          <p>Please enable JavaScript to use file uploader.</p>
+                                          <!-- or put a simple form for upload here -->
+                                        </noscript>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- END Update Box -->
+
+                                  <!-- Stream -->
+                                <table border="0" cellspacing="0" class="TwentyFour stream">
+                                  <tbody>
+                                  <tr valign="bottom">
+                                    <td id="my_ir0c0" class="Photo"></td>
+                                    <td id="my_ir0c1" class="Photo"></td>
+                                    <td id="my_ir0c2" class="Photo"></td>
+                                  </tr>
+                                  <tr valign="top">
+                                    <td id="my_or0c0" class="Owner"></td>
+                                    <td id="my_or0c1" class="Owner"></td>
+                                    <td id="my_or0c2" class="Owner"></td>
+                                  </tr>
+                                  <tr valign="bottom">
+                                    <td id="my_ir1c0" class="Photo"></td>
+                                    <td id="my_ir1c1" class="Photo"></td>
+                                    <td id="my_ir1c2" class="Photo"></td>
+                                  </tr>
+                                  <tr valign="top">
+                                    <td id="my_or1c0" class="Owner"></td>
+                                    <td id="my_or1c1" class="Owner"></td>
+                                    <td id="my_or1c2" class="Owner"></td>
+                                  </tr>
+                                  <tr valign="bottom">
+                                    <td id="my_ir2c0" class="Photo"></td>
+                                    <td id="my_ir2c1" class="Photo"></td>
+                                    <td id="my_ir2c2" class="Photo"></td>
+                                  </tr>
+                                  <tr valign="top">
+                                    <td id="my_or2c0" class="Owner"></td>
+                                    <td id="my_or2c1" class="Owner"></td>
+                                    <td id="my_or2c2" class="Owner"></td>
+                                  </tr>
+                                  </tbody>
+                                </table>
+                                  <!-- END Stream -->
+
+                          </div>
                   </div>
-                </div>
               </div>
-              <!-- END Update Box -->
-
-              <!-- Stream -->
-            <table  border="0" cellspacing="0" class="TwentyFour stream">
-              <tbody>
-              <tr valign="bottom">
-                <td id="ir0c0" class="Photo"></td>
-                <td id="ir0c1" class="Photo"></td>
-                <td id="ir0c2" class="Photo"></td>
-              </tr>
-              <tr valign="top">
-                <td id="or0c0" class="Owner"></td>
-                <td id="or0c1" class="Owner"></td>
-                <td id="or0c2" class="Owner"></td>
-              </tr>
-              <tr valign="bottom">
-                <td id="ir1c0" class="Photo"></td>
-                <td id="ir1c1" class="Photo"></td>
-                <td id="ir1c2" class="Photo"></td>
-              </tr>
-              <tr valign="top">
-                <td id="or1c0" class="Owner"></td>
-                <td id="or1c1" class="Owner"></td>
-                <td id="or1c2" class="Owner"></td>
-              </tr>
-              <tr valign="bottom">
-                <td id="ir2c0" class="Photo"></td>
-                <td id="ir2c1" class="Photo"></td>
-                <td id="ir2c2" class="Photo"></td>
-              </tr>
-              <tr valign="top">
-                <td id="or2c0" class="Owner"></td>
-                <td id="or2c1" class="Owner"></td>
-                <td id="or2c2" class="Owner"></td>
-              </tr>
-              </tbody>
-            </table>
-              <!-- END Stream -->
-
-            </div>
           </div>
         </div>
     </div>
-
-        <div class="myphotos container tab">
-
-          <div class="row update-box-container">
-            <div class="span10 columns">
-
-              <!-- Update Box -->
-              <div class="modal update-box" id="my-update-box">
-                <div class="modal-body">
-                  <p>To upload a file, click on the button below. Drag-and-drop is supported in FF, Chrome.</p>
-                  <div id="my-file-uploader-demo1">
-                    <noscript>
-                      <p>Please enable JavaScript to use file uploader.</p>
-                      <!-- or put a simple form for upload here -->
-                    </noscript>
-                  </div>
-                </div>
-              </div>
-              <!-- END Update Box -->
-
-              <!-- Stream -->
-            <table border="0" cellspacing="0" class="TwentyFour stream">
-              <tbody>
-              <tr valign="bottom">
-                <td id="my_ir0c0" class="Photo"></td>
-                <td id="my_ir0c1" class="Photo"></td>
-                <td id="my_ir0c2" class="Photo"></td>
-              </tr>
-              <tr valign="top">
-                <td id="my_or0c0" class="Owner"></td>
-                <td id="my_or0c1" class="Owner"></td>
-                <td id="my_or0c2" class="Owner"></td>
-              </tr>
-              <tr valign="bottom">
-                <td id="my_ir1c0" class="Photo"></td>
-                <td id="my_ir1c1" class="Photo"></td>
-                <td id="my_ir1c2" class="Photo"></td>
-              </tr>
-              <tr valign="top">
-                <td id="my_or1c0" class="Owner"></td>
-                <td id="my_or1c1" class="Owner"></td>
-                <td id="my_or1c2" class="Owner"></td>
-              </tr>
-              <tr valign="bottom">
-                <td id="my_ir2c0" class="Photo"></td>
-                <td id="my_ir2c1" class="Photo"></td>
-                <td id="my_ir2c2" class="Photo"></td>
-              </tr>
-              <tr valign="top">
-                <td id="my_or2c0" class="Owner"></td>
-                <td id="my_or2c1" class="Owner"></td>
-                <td id="my_or2c2" class="Owner"></td>
-              </tr>
-              </tbody>
-            </table>
-              <!-- END Stream -->
-
-            </div>
-          </div>
-        </div>
-    </div>
+  </div>
 <!-- templates -->
 
 <!-- Update kind: Share -->
