@@ -59,7 +59,7 @@ public class PhotosResource
     try
     {
       queryParams.add(new BasicNameValuePair("q", "feed"));
-      queryParams.add(new BasicNameValuePair("id", String.format("urn:feed:photon:public:a::memberId=urn:member:%s", id)));
+      queryParams.add(new BasicNameValuePair("id", String.format("urn:feed:photon:member:a::memberId=urn:member:%s", id)));
       return _queryClient.doQuery(queryParams).toString(2);
     }
     catch (URISyntaxException e)

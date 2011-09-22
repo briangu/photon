@@ -1,4 +1,4 @@
-$().ready(function() {
+var photonApp = function() {
 
   function createUploader()
   {
@@ -39,7 +39,7 @@ $().ready(function() {
                    photoId: "urn:photo:"+responseJSON.key
                  },
                  function(response) {
-                   getFeed();
+                   _getFeed();
                  });
         }
         });
@@ -60,7 +60,7 @@ $().ready(function() {
     $('#stream-updates').html(spinner.el);
   }
 
-  function getFeed() {
+  function _getFeed() {
     showSpinner();
 
     $.getJSON('/photos/feed?id='+params.id, function(data) {
@@ -194,5 +194,6 @@ $().ready(function() {
    }
 
    createUploader();
-   getFeed();
-});
+   _getFeed();
+};
+
