@@ -25,7 +25,7 @@ import org.json.JSONObject;
 @Path("/photos/")
 public class PhotosResource
 {
-  static final String _commentUrlTemplate = "http://bguarrac-ld:1342/threads/%s/comments";
+  static final String _commentUrlTemplate = "http://localhost:1342/threads/%s/comments";
   static HttpJSONClient _queryClient;
   static HttpJSONClient _publishClient;
   static Map<String, String> _headers = new HashMap<String, String>();
@@ -33,8 +33,8 @@ public class PhotosResource
   static {
     try
     {
-      _queryClient = HttpJSONClient.create("http://bguarrac-ld:1340/activityviews");
-        _publishClient = HttpJSONClient.create("http://bguarrac-ld:1338/activities");
+      _queryClient = HttpJSONClient.create("http://localhost:1340/activityviews");
+        _publishClient = HttpJSONClient.create("http://localhost:1338/activities");
 //      _headers.put("X-LinkedIn-Auth-Member", "1");
     }
     catch (IOException e)
@@ -59,7 +59,8 @@ public class PhotosResource
     try
     {
       queryParams.add(new BasicNameValuePair("q", "feed"));
-      queryParams.add(new BasicNameValuePair("id", String.format("urn:feed:photon:member:a::memberId=urn:member:%s", id)));
+      queryParams.add(new BasicNameValuePair("id", String.format("urn:feed:photon:member:%s", id)));
+      queryParams.add(new BasicNameValuePair("viewerId", String.format("urn:feed:photon:member:%s", id)));
       return _queryClient.doQuery(queryParams).toString(2);
     }
     catch (URISyntaxException e)
@@ -85,7 +86,8 @@ public class PhotosResource
       try
       {
         queryParams.add(new BasicNameValuePair("q", "feed"));
-        queryParams.add(new BasicNameValuePair("id", String.format("urn:feed:photon:public:a::memberId=urn:member:%s", id)));
+        queryParams.add(new BasicNameValuePair("id", String.format("urn:feed:photon:public:%s", id)));
+        queryParams.add(new BasicNameValuePair("viewerId", String.format("urn:feed:photon:public:%s", id)));
         return _queryClient.doQuery(queryParams).toString(2);
       }
       catch (URISyntaxException e)
@@ -111,7 +113,8 @@ public class PhotosResource
     try
     {
       queryParams.add(new BasicNameValuePair("q", "feed"));
-      queryParams.add(new BasicNameValuePair("id", String.format("urn:feed:photon:photo:a::threadId=%s", threadId)));
+      queryParams.add(new BasicNameValuePair("id", String.format("urn:feed:photon:photo:comments:__threadId=%s", threadId)));
+      queryParams.add(new BasicNameValuePair("viewerId", String.format("urn:feed:photon:photo:comments:__threadId=%s", threadId)));
       return _queryClient.doQuery(queryParams).toString(2);
     }
     catch (URISyntaxException e)
@@ -190,9 +193,10 @@ public class PhotosResource
   {
     try
     {
-      String member = String.format("urn:member:%s", id);
+      JSONObject member = new JSONObject();
+      member.put("id", String.format("urn:member:%s", id));
       JSONObject post = new JSONObject();
-      post.put("commenterId", member);
+      post.put("commenter", member);
       post.put("message", body);
 
       String url = String.format(_commentUrlTemplate, threadId);
